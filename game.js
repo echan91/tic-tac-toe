@@ -14,8 +14,8 @@ class TicTacToe {
 
   convertToColRow(place) {
     return {
-      col: Math.floor((place-1) / 3),
-      row: (place-1) % 3
+      row: Math.floor((place-1)/ 3),
+      col: (place-1) % 3
     };
   }
 
@@ -44,15 +44,19 @@ class TicTacToe {
   }
   validMove(move) {
     const {col, row} = this.convertToColRow(move);
-    if (move === undefined) {
+    if (move === undefined || move > 9 || move < 1) {
+    // Undefined or invalid moves
+      return false;
+    } else if (typeof this.board[row][col] !== 'number') {
+    // If space already taken
       return false;
     }
-    return typeof this.board[row][col] === 'number';
+    return true;
   }
   makeMove() {
     let move;
     while (!this.validMove(move)){
-      move = rl.question('Please input a valid space between 1-9');
+      move = rl.question('Please input a valid space between 1-9: ');
     }
     this.moves++;
     return this.convertToColRow(move);
